@@ -165,7 +165,7 @@
 
 							const base_url = "https://apiv3.dol.gov/v3/get/"
 							endpoint = "whd/wh_enforcement"
-							const url = base_url * endpoint
+							url = base_url * endpoint
 						</code></pre>
 					</section>
 					<section data-auto-animate>
@@ -186,9 +186,9 @@
 							
 							const base_url = "https://apiv3.dol.gov/v3/get/"
 							endpoint = "whd/wh_enforcement"
-							const url = base_url * endpoint
+							url = base_url * endpoint
 
-							const res = HTTP.get(
+							res = HTTP.get(
 								url,
 								["Content-Type" => "application/json"],
 								query=params,
@@ -214,16 +214,16 @@
 							
 							const base_url = "https://apiv3.dol.gov/v3/get/"
 							endpoint = "whd/wh_enforcement"
-							const url = base_url * endpoint
+							url = base_url * endpoint
 
-							const res = HTTP.get(
+							res = HTTP.get(
 								url,
 								["Content-Type" => "application/json"],
 								query=params,
 								require_ssl_verification=false
 							)
 
-							const results_dict = JSON.parse(String(res.body))
+							results_dict = JSON.parse(String(res.body))
 						</code></pre>
 					</section>
 				</section>
@@ -469,7 +469,7 @@
 						
 						const base_url = "https://apiv3.dol.gov/v3/get/"
 						endpoint = "whd/wh_enforcement"
-						const url = base_url * endpoint
+						url = base_url * endpoint
 
 						struct ResponseMetaData
 							total_records::Int64
