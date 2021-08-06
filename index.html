@@ -1,0 +1,542 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>DOL API With Julia</title>
+
+		<link rel="icon" type="image/x-icon" href="favicon.ico">
+		<link rel="stylesheet" href="reveal.js/dist/reset.css">
+		<link rel="stylesheet" href="reveal.js/dist/reveal.css">
+		<link rel="stylesheet" href="reveal.js/dist/theme/moon.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="reveal.js/plugin/highlight/zenburn.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h3>Using The DOL API With</h3>
+					<img src="/julia-logo-color.svg" alt="Julia">
+					<p class="caption">Matt Helm - WHD Division of Data Analytics</p>
+				</section>
+				<section>
+					<section>
+						<h3>WHD Enforcement Example</h3>
+					</section>
+					<section>
+						<p>For this example, we're going to pull data from the WHD enforcement data set</p>
+					</section>
+					<section>
+						<p>This tutorial assumes that you have Julia installed and that you have basic familiarity with how to use it. For the former, contact the help desk and for the latter, contact Matt at <a href="mailto: helm.matthew@dol.gov">helm.matthew@dol.gov</a></p>
+					</section>
+				</section>
+				<section>
+					<section data-auto-animate>
+						<h3>Dependencies</h3>
+						<pre data-id="code">
+							<code data-trim data-line-numbers class="language-julia">
+								using HTTP
+								using JSON
+							</code>
+						</pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Parameters</h3>
+						<pre data-id="code">
+							<code data-trim data-line-numbers class="language-julia">
+								using HTTP
+								using JSON
+
+								params = Dict( 
+									"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
+									"fields" => "case_id,naic_cd,ee_atp_cnt,flsa_violtn_cnt",
+									"limit" => 10,
+									"offset" => 0,
+									"sort" => "DESC",
+									"sort_by" => "ee_atp_cnt",
+									"filter_object" => "{'field': 'findings_end_date','operator': 'gt','value': '2019-10-01 00:00:00'}"
+								)
+							</code>
+						</pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Parameters</h3>
+						<pre data-id="code"><code data-trim data-line-numbers="5" class="language-julia">
+							using HTTP
+							using JSON
+
+							params = Dict( 
+								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
+								"fields" => "case_id,naic_cd,ee_atp_cnt,flsa_violtn_cnt",
+								"limit" => 10,
+								"offset" => 0,
+								"sort" => "DESC",
+								"sort_by" => "ee_atp_cnt",
+								"filter_object" => "{'field': 'findings_end_date','operator': 'gt','value': '2019-10-01 00:00:00'}"
+							)
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Parameters</h3>
+						<pre data-id="code"><code data-trim data-line-numbers="6" class="language-julia">
+							using HTTP
+							using JSON
+
+							params = Dict( 
+								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
+								"fields" => "case_id,naic_cd,ee_atp_cnt,flsa_violtn_cnt",
+								"limit" => 10,
+								"offset" => 0,
+								"sort" => "DESC",
+								"sort_by" => "ee_atp_cnt",
+								"filter_object" => "{'field': 'findings_end_date','operator': 'gt','value': '2019-10-01 00:00:00'}"
+							)
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Parameters</h3>
+						<pre data-id="code"><code data-trim data-line-numbers="7-8" class="language-julia">
+							using HTTP
+							using JSON
+
+							params = Dict( 
+								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
+								"fields" => "case_id,naic_cd,ee_atp_cnt,flsa_violtn_cnt",
+								"limit" => 10,
+								"offset" => 0,
+								"sort" => "DESC",
+								"sort_by" => "ee_atp_cnt",
+								"filter_object" => "{'field': 'findings_end_date','operator': 'gt','value': '2019-10-01 00:00:00'}"
+							)
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Parameters</h3>
+						<pre data-id="code"><code data-trim data-line-numbers="9-10" class="language-julia">
+							using HTTP
+							using JSON
+
+							params = Dict( 
+								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
+								"fields" => "case_id,naic_cd,ee_atp_cnt,flsa_violtn_cnt",
+								"limit" => 10,
+								"offset" => 0,
+								"sort" => "DESC",
+								"sort_by" => "ee_atp_cnt",
+								"filter_object" => "{'field': 'findings_end_date','operator': 'gt','value': '2019-10-01 00:00:00'}"
+							)
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Parameters</h3>
+						<pre data-id="code"><code data-trim data-line-numbers="11" class="language-julia">
+							using HTTP
+							using JSON
+
+							params = Dict( 
+								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
+								"fields" => "case_id,naic_cd,ee_atp_cnt,flsa_violtn_cnt",
+								"limit" => 10,
+								"offset" => 0,
+								"sort" => "DESC",
+								"sort_by" => "ee_atp_cnt",
+								"filter_object" => "{'field': 'findings_end_date','operator': 'gt','value': '2019-10-01 00:00:00'}"
+							)
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Specifying The URL</h3>
+						<pre data-id="code"><code data-trim data-line-numbers="14-16" class="language-julia">
+							using HTTP
+							using JSON
+
+							params = Dict( 
+								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
+								"fields" => "case_id,naic_cd,ee_atp_cnt,flsa_violtn_cnt",
+								"limit" => 10,
+								"offset" => 0,
+								"sort" => "DESC",
+								"sort_by" => "ee_atp_cnt",
+								"filter_object" => "{'field': 'findings_end_date','operator': 'gt','value': '2019-10-01 00:00:00'}"
+							)
+
+							const base_url = "https://apiv3.dol.gov/v3/get/"
+							endpoint = "whd/wh_enforcement"
+							const url = base_url * endpoint
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Making A Request</h3>
+						<pre data-id="code"><code data-trim data-line-numbers="18-23" class="language-julia">
+							using HTTP
+							using JSON
+
+							params = Dict( 
+								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
+								"fields" => "case_id,naic_cd,ee_atp_cnt,flsa_violtn_cnt",
+								"limit" => 10,
+								"offset" => 0,
+								"sort" => "DESC",
+								"sort_by" => "ee_atp_cnt",
+								"filter_object" => "{'field': 'findings_end_date','operator': 'gt','value': '2019-10-01 00:00:00'}"
+							)
+							
+							const base_url = "https://apiv3.dol.gov/v3/get/"
+							endpoint = "whd/wh_enforcement"
+							const url = base_url * endpoint
+
+							const res = HTTP.get(
+								url,
+								["Content-Type" => "application/json"],
+								query=params,
+								require_ssl_verification=false
+							)
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Parsing The Results</h3>
+						<pre data-id="code"><code data-trim data-line-numbers="25" class="language-julia">
+							using HTTP
+							using JSON
+
+							params = Dict( 
+								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
+								"fields" => "case_id,naic_cd,ee_atp_cnt,flsa_violtn_cnt",
+								"limit" => 10,
+								"offset" => 0,
+								"sort" => "DESC",
+								"sort_by" => "ee_atp_cnt",
+								"filter_object" => "{'field': 'findings_end_date','operator': 'gt','value': '2019-10-01 00:00:00'}"
+							)
+							
+							const base_url = "https://apiv3.dol.gov/v3/get/"
+							endpoint = "whd/wh_enforcement"
+							const url = base_url * endpoint
+
+							const res = HTTP.get(
+								url,
+								["Content-Type" => "application/json"],
+								query=params,
+								require_ssl_verification=false
+							)
+
+							const results_dict = JSON.parse(String(res.body))
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<h3>Viewing The Results</h3>
+					<pre data-id="code"><code data-trim class="language-julia-repl">
+						julia> results_dict["data"]
+
+						10-element Vector{Any}: 
+						Dict{String, Any}("case_id" => 1908151, "naic_cd" => "812111", "ee_atp_cnt" => 7576, "flsa_violtn_cnt" => 7770)
+						Dict{String, Any}("case_id" => 1924005, "naic_cd" => "561730", "ee_atp_cnt" => 2749, "flsa_violtn_cnt" => 2749)
+						Dict{String, Any}("case_id" => 1907946, "naic_cd" => "722211", "ee_atp_cnt" => 1915, "flsa_violtn_cnt" => 2019)
+						Dict{String, Any}("case_id" => 1915994, "naic_cd" => "44711", "ee_atp_cnt" => 1576, "flsa_violtn_cnt" => 1577)
+						Dict{String, Any}("case_id" => 1920395, "naic_cd" => "561320", "ee_atp_cnt" => 1150, "flsa_violtn_cnt" => 1151)
+						Dict{String, Any}("case_id" => 1910281, "naic_cd" => "09640", "ee_atp_cnt" => 1028, "flsa_violtn_cnt" => 1029)
+						Dict{String, Any}("case_id" => 1916954, "naic_cd" => "9890", "ee_atp_cnt" => 886, "flsa_violtn_cnt" => 886)
+						Dict{String, Any}("case_id" => 1892321, "naic_cd" => "9110", "ee_atp_cnt" => 784, "flsa_violtn_cnt" => 785)
+						Dict{String, Any}("case_id" => 1907043, "naic_cd" => "722110", "ee_atp_cnt" => 763, "flsa_violtn_cnt" => 1527)
+						Dict{String, Any}("case_id" => 1921848, "naic_cd" => "561421", "ee_atp_cnt" => 760, "flsa_violtn_cnt" => 0)
+					
+					</code></pre>
+				</section>
+				<section>
+					<section>
+						<h3>Visualizing</h3>
+						<pre data-id="code"><code data-trim class="language-julia">
+							using Plots
+							
+							naic_cds = [
+								first(results_dict["data"][i]["naic_cd"], 2)
+								for i in 1:length(results_dict["data"])
+								if !isnothing(results_dict["data"][i]["naic_cd"])
+							]
+							
+							naic_counts = [(i, count(==(i), naic_cds)) for i in unique(naic_cds)]
+							
+							plot = bar(
+								[naic_counts[i][2] for i in 1:length(naic_counts)],
+								xlabel = "NAICS",
+								ylabel = "No. of Cases",
+								legend = false,
+								xticks = (1:length(naic_counts), [naic_counts[i][1] for i in 1:length(naic_counts)]),
+								xrotation = 45,
+								title = "Case Counts by 2-Digit NAICS",
+								color = :purple
+							)	
+						</code></pre>
+					</section>
+					<section>
+						<h3>Result</h3>
+						<iframe data-src="bar.html"></iframe>
+					</section>
+				</section>
+				<section>
+					<section data-auto-animate>
+						<h3>Improving Our Code</h3>
+						<pre><code data-trim class="language-julia" data-line-numbers="1-2">
+							using DataFrames
+							using Unmarshal
+
+							struct ResponseMetaData
+								total_records::Int64
+								next_url::String
+							end
+
+							struct Case
+								case_id::Int64
+								ee_atp_cnt::Int64
+								flsa_violtn_cnt::Int64
+								naic_cd::Union{String, Nothing}
+							end
+
+							struct Response
+								response_metadata::ResponseMetaData
+								data::Vector{Case}
+							end
+
+							function fetch_data(url::String, params::Dict) 
+								res = HTTP.get(
+									url,
+									["Content-Type" => "application/json"],
+									query=params,
+									require_ssl_verification=false
+								)
+								return unmarshal(Response, JSON.parse(String(res.body)))
+							end
+
+							res = fetch_data(url, params)
+
+							df = DataFrame(res.data)
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Improving Our Code</h3>
+						<pre><code data-trim class="language-julia" data-line-numbers="4-19">
+							using DataFrames
+							using Unmarshal
+
+							struct ResponseMetaData
+								total_records::Int64
+								next_url::String
+							end
+
+							struct Case
+								case_id::Int64
+								ee_atp_cnt::Int64
+								flsa_violtn_cnt::Int64
+								naic_cd::Union{String, Nothing}
+							end
+
+							struct Response
+								response_metadata::ResponseMetaData
+								data::Vector{Case}
+							end
+
+							function fetch_data(url::String, params::Dict) 
+								res = HTTP.get(
+									url,
+									["Content-Type" => "application/json"],
+									query=params,
+									require_ssl_verification=false
+								)
+								return unmarshal(Response, JSON.parse(String(res.body)))
+							end
+
+							res = fetch_data(url, params)
+
+							df = DataFrame(res.data)
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Improving Our Code</h3>
+						<pre><code data-trim class="language-julia" data-line-numbers="21-29">
+							using DataFrames
+							using Unmarshal
+
+							struct ResponseMetaData
+								total_records::Int64
+								next_url::String
+							end
+
+							struct Case
+								case_id::Int64
+								ee_atp_cnt::Int64
+								flsa_violtn_cnt::Int64
+								naic_cd::Union{String, Nothing}
+							end
+
+							struct Response
+								response_metadata::ResponseMetaData
+								data::Vector{Case}
+							end
+
+							function fetch_data(url::String, params::Dict) 
+								res = HTTP.get(
+									url,
+									["Content-Type" => "application/json"],
+									query=params,
+									require_ssl_verification=false
+								)
+								return unmarshal(Response, JSON.parse(String(res.body)))
+							end
+
+							res = fetch_data(url, params)
+
+							df = DataFrame(res.data)
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Improving Our Code</h3>
+						<pre><code data-trim class="language-julia" data-line-numbers="31-33">
+							using DataFrames
+							using Unmarshal
+
+							struct ResponseMetaData
+								total_records::Int64
+								next_url::String
+							end
+
+							struct Case
+								case_id::Int64
+								ee_atp_cnt::Int64
+								flsa_violtn_cnt::Int64
+								naic_cd::Union{String, Nothing}
+							end
+
+							struct Response
+								response_metadata::ResponseMetaData
+								data::Vector{Case}
+							end
+
+							function fetch_data(url::String, params::Dict) 
+								res = HTTP.get(
+									url,
+									["Content-Type" => "application/json"],
+									query=params,
+									require_ssl_verification=false
+								)
+								return unmarshal(Response, JSON.parse(String(res.body)))
+							end
+
+							res = fetch_data(url, params)
+
+							df = DataFrame(res.data)
+						</code></pre>
+					</section>
+					<section>
+						<h3>The Resulting DataFrame</h3>
+						<pre><code data-trim class="language-julia-repl">
+							julia> df 
+							18676×4 DataFrame
+								Row │ case_id  ee_atp_cnt  flsa_violtn_cnt  naic_cd 
+									  │ Int64    Int64       Int64            String  
+								────┼───────────────────────────────────────────────
+									1 │ 1908151        7576             7770  812111
+									2 │ 1924005        2749             2749  561730
+									3 │ 1907946        1915             2019  722211
+								⋮ 	    ⋮              ⋮                ⋮       ⋮
+							18674 │ 1939717           0                0  448140
+							18675 │ 1939724           0                1  424810
+							18676 │ 1939730           0                0  722211
+																								18670 rows omitted
+
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<h3>Putting It All Together</h3>
+					<pre><code data-trim class="language-julia" data-line-numbers>
+						using DataFrames
+						using HTTP
+						using JSON
+						using Unmarshal
+
+						params = Dict( 
+							"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
+							"fields" => "case_id,naic_cd,ee_atp_cnt,flsa_violtn_cnt",
+							"limit" => 10,
+							"offset" => 0,
+							"sort" => "DESC",
+							"sort_by" => "ee_atp_cnt",
+							"filter_object" => "{'field': 'findings_end_date','operator': 'gt','value': '2019-10-01 00:00:00'}"
+						)
+						
+						const base_url = "https://apiv3.dol.gov/v3/get/"
+						endpoint = "whd/wh_enforcement"
+						const url = base_url * endpoint
+
+						struct ResponseMetaData
+							total_records::Int64
+							next_url::String
+						end
+
+						struct Case
+							case_id::Int64
+							ee_atp_cnt::Int64
+							flsa_violtn_cnt::Int64
+							naic_cd::Union{String, Nothing}
+						end
+
+						struct Response
+							response_metadata::ResponseMetaData
+							data::Vector{Case}
+						end
+
+						function fetch_data(url::String, params::Dict) 
+							res = HTTP.get(
+								url,
+								["Content-Type" => "application/json"],
+								query=params,
+								require_ssl_verification=false
+							)
+							return unmarshal(Response, JSON.parse(String(res.body)))
+						end
+
+						res = fetch_data(url, params)
+
+						df = DataFrame(res.data)
+					</code></pre>
+				</section>
+				<section>
+					<h3>Ready To Get Started?</h3>
+					<a href="https://gitlab.dol.gov/mhelm/dol-api-with-julia">All the code is here!</a>
+				</section>
+			</div>
+		</div>
+
+		<script src="reveal.js/dist/reveal.js"></script>
+		<script src="reveal.js/plugin/notes/notes.js"></script>
+		<script src="reveal.js/plugin/markdown/markdown.js"></script>
+		<script src="reveal.js/plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+	<style>
+		.caption {
+			font-size: smaller;
+		}
+
+		iframe {
+			display: block;
+			height: 600px;
+			width: 845px;
+			margin: 0 auto;
+		}
+	</style>
+</html>
