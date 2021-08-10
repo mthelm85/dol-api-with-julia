@@ -39,7 +39,7 @@
 						<pre data-id="code">
 							<code data-trim data-line-numbers class="language-julia">
 								using HTTP
-								using JSON
+								using JSON3
 							</code>
 						</pre>
 					</section>
@@ -48,7 +48,7 @@
 						<pre data-id="code">
 							<code data-trim data-line-numbers class="language-julia">
 								using HTTP
-								using JSON
+								using JSON3
 
 								params = Dict( 
 									"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
@@ -66,7 +66,7 @@
 						<h3>Parameters</h3>
 						<pre data-id="code"><code data-trim data-line-numbers="5" class="language-julia">
 							using HTTP
-							using JSON
+							using JSON3
 
 							params = Dict( 
 								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
@@ -83,7 +83,7 @@
 						<h3>Parameters</h3>
 						<pre data-id="code"><code data-trim data-line-numbers="6" class="language-julia">
 							using HTTP
-							using JSON
+							using JSON3
 
 							params = Dict( 
 								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
@@ -100,7 +100,7 @@
 						<h3>Parameters</h3>
 						<pre data-id="code"><code data-trim data-line-numbers="7-8" class="language-julia">
 							using HTTP
-							using JSON
+							using JSON3
 
 							params = Dict( 
 								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
@@ -117,7 +117,7 @@
 						<h3>Parameters</h3>
 						<pre data-id="code"><code data-trim data-line-numbers="9-10" class="language-julia">
 							using HTTP
-							using JSON
+							using JSON3
 
 							params = Dict( 
 								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
@@ -134,7 +134,7 @@
 						<h3>Parameters</h3>
 						<pre data-id="code"><code data-trim data-line-numbers="11" class="language-julia">
 							using HTTP
-							using JSON
+							using JSON3
 
 							params = Dict( 
 								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
@@ -151,7 +151,7 @@
 						<h3>Specifying The URL</h3>
 						<pre data-id="code"><code data-trim data-line-numbers="14-16" class="language-julia">
 							using HTTP
-							using JSON
+							using JSON3
 
 							params = Dict( 
 								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
@@ -172,7 +172,7 @@
 						<h3>Making A Request</h3>
 						<pre data-id="code"><code data-trim data-line-numbers="18-23" class="language-julia">
 							using HTTP
-							using JSON
+							using JSON3
 
 							params = Dict( 
 								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
@@ -190,7 +190,7 @@
 
 							res = HTTP.get(
 								url,
-								["Content-Type" => "application/json"],
+								["Content-Type" => "application/JSON3"],
 								query=params,
 								require_ssl_verification=false
 							)
@@ -200,7 +200,7 @@
 						<h3>Parsing The Results</h3>
 						<pre data-id="code"><code data-trim data-line-numbers="25" class="language-julia">
 							using HTTP
-							using JSON
+							using JSON3
 
 							params = Dict( 
 								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
@@ -218,314 +218,140 @@
 
 							res = HTTP.get(
 								url,
-								["Content-Type" => "application/json"],
+								["Content-Type" => "application/JSON3"],
 								query=params,
 								require_ssl_verification=false
 							)
 
-							results_dict = JSON.parse(String(res.body))
+							body = JSON3.read(String(res.body))
 						</code></pre>
 					</section>
 				</section>
 				<section>
-					<h3>Viewing The Results</h3>
-					<pre data-id="code"><code data-trim class="language-julia-repl">
-						julia> results_dict["data"]
+					<section data-auto-animate>
+						<h3>Viewing The Results</h3>
+						<pre data-id="code"><code data-trim class="language-julia-repl">
+							julia> body.response_metadata 
+							JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}} with 2 entries:
+							  :total_records => 317545
+							  :next_url      => "/v3/get/whd/wh_enforcement?limit=30000&offset=30000"
+							
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Viewing The Results</h3>
+						<pre data-id="code"><code data-trim class="language-julia-repl">
+							julia> body.data 
+							18676-element JSON3.Array{JSON3.Object, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}:
+							 {
+									   "case_id": 1908151,
+									   "naic_cd": "812111",
+									"ee_atp_cnt": 7576,
+							   "flsa_violtn_cnt": 7770
+							}
+							 {
+									   "case_id": 1924005,
+									   "naic_cd": "561730",
+									"ee_atp_cnt": 2749,
+							   "flsa_violtn_cnt": 2749
+							}
+							 {
+									   "case_id": 1907946,
+									   "naic_cd": "722211",
+									"ee_atp_cnt": 1915,
+							   "flsa_violtn_cnt": 2019
+							}
+							 {
+									   "case_id": 1915994,
+									   "naic_cd": "44711",
+									"ee_atp_cnt": 1576,
+							   "flsa_violtn_cnt": 1577
+							}
+							 ⋮
+							
+						
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<section data-auto-animate>
+						<h3>Loading A DataFrame / Writing A .csv</h3>
+						<pre data-id="code"><code data-trim data-line-numbers="1-2" class="language-julia">
+							using CSV
+							using DataFrames
 
-						10-element Vector{Any}: 
-						Dict{String, Any}("case_id" => 1908151, "naic_cd" => "812111", "ee_atp_cnt" => 7576, "flsa_violtn_cnt" => 7770)
-						Dict{String, Any}("case_id" => 1924005, "naic_cd" => "561730", "ee_atp_cnt" => 2749, "flsa_violtn_cnt" => 2749)
-						Dict{String, Any}("case_id" => 1907946, "naic_cd" => "722211", "ee_atp_cnt" => 1915, "flsa_violtn_cnt" => 2019)
-						Dict{String, Any}("case_id" => 1915994, "naic_cd" => "44711", "ee_atp_cnt" => 1576, "flsa_violtn_cnt" => 1577)
-						Dict{String, Any}("case_id" => 1920395, "naic_cd" => "561320", "ee_atp_cnt" => 1150, "flsa_violtn_cnt" => 1151)
-						Dict{String, Any}("case_id" => 1910281, "naic_cd" => "09640", "ee_atp_cnt" => 1028, "flsa_violtn_cnt" => 1029)
-						Dict{String, Any}("case_id" => 1916954, "naic_cd" => "9890", "ee_atp_cnt" => 886, "flsa_violtn_cnt" => 886)
-						Dict{String, Any}("case_id" => 1892321, "naic_cd" => "9110", "ee_atp_cnt" => 784, "flsa_violtn_cnt" => 785)
-						Dict{String, Any}("case_id" => 1907043, "naic_cd" => "722110", "ee_atp_cnt" => 763, "flsa_violtn_cnt" => 1527)
-						Dict{String, Any}("case_id" => 1921848, "naic_cd" => "561421", "ee_atp_cnt" => 760, "flsa_violtn_cnt" => 0)
-					
-					</code></pre>
+							df = DataFrame(body.data)
+
+							CSV.write("dol_data.csv", body.data)
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<h3>Loading A DataFrame / Writing A .csv</h3>
+						<pre data-id="code"><code data-trim data-line-numbers="4-6" class="language-julia">
+							using CSV
+							using DataFrames
+
+							df = DataFrame(body.data)
+
+							CSV.write("dol_data.csv", body.data)
+						</code></pre>
+					</section>
+					<section>
+						<h3>Viewing The DataFrame</h3>
+						<pre data-id="code"><code data-trim class="language-julia-repl">
+							julia> df
+							18676×4 DataFrame
+								Row │ case_id  naic_cd  ee_atp_cnt  flsa_violtn_cnt 
+								    │ Int64    String   Int64       Int64
+						 ──────┼───────────────────────────────────────────────
+									1 │ 1908151  812111         7576             7770 
+									2 │ 1924005  561730         2749             2749 
+									3 │ 1907946  722211         1915             2019 
+									4 │ 1915994  44711          1576             1577 
+									5 │ 1920395  561320         1150             1151 
+									6 │ 1910281  09640          1028             1029 
+									7 │ 1916954  9890            886              886 
+									8 │ 1892321  9110            784              785 
+							    ⋮       ⋮        ⋮              ⋮                ⋮        
+							18669 │ 1936464  561311            0                1 
+							18670 │ 1936468  445291            0                0 
+							18671 │ 1936476  321911            0                1 
+							18672 │ 1939707  336111            0                0 
+							18673 │ 1939709  445299            0                0 
+							18674 │ 1939717  448140            0                0 
+							18675 │ 1939724  424810            0                1 
+							18676 │ 1939730  722211            0                0 
+																                 18660 rows omitted
+
+						</code></pre>	
+					</section>
 				</section>
 				<section>
 					<section>
 						<h3>Visualizing</h3>
 						<pre data-id="code"><code data-trim class="language-julia">
 							using Plots
-							
-							naic_cds = [
-								first(results_dict["data"][i]["naic_cd"], 2)
-								for i in 1:length(results_dict["data"])
-								if !isnothing(results_dict["data"][i]["naic_cd"])
-							]
-							
-							naic_counts = [(i, count(==(i), naic_cds)) for i in unique(naic_cds)]
+
+							naic_cds = first.(df.naic_cd, 2)
+							naic_counts = [(code, count(==(code), naic_cds)) for code in unique(naic_cds)]
 							
 							plot = bar(
 								[naic_counts[i][2] for i in 1:length(naic_counts)],
-								xlabel = "NAICS",
-								ylabel = "No. of Cases",
-								legend = false,
-								xticks = (1:length(naic_counts), [naic_counts[i][1] for i in 1:length(naic_counts)]),
-								title = "Case Counts by 2-Digit NAICS",
-								color = :purple
-							)	
+								xlabel="NAICS",
+								ylabel="No. of Cases",
+								legend=false,
+								xticks=(1:length(naic_counts), [naic_counts[i][1] for i in 1:length(naic_counts)]),
+								xrotation=45,
+								title="Case Counts by 2-Digit NAICS",
+								color=:purple
+							)
+							
 						</code></pre>
 					</section>
 					<section>
 						<h3>Result</h3>
 						<iframe data-src="bar.html"></iframe>
 					</section>
-				</section>
-				<section>
-					<section data-auto-animate>
-						<h3>Improving Our Code</h3>
-						<pre><code data-trim class="language-julia" data-line-numbers="1-3">
-							using DataFrames
-							using JSON3
-							using StructTypes
-
-							struct ResponseMetaData
-								total_records::Int64
-								next_url::String
-							end
-
-							struct Case
-								case_id::Int64
-								ee_atp_cnt::Int64
-								flsa_violtn_cnt::Int64
-								naic_cd::Union{String, Nothing}
-							end
-
-							struct Response
-								response_metadata::ResponseMetaData
-								data::Vector{Case}
-							end
-
-							StructTypes.StructType(::Type{Response}) = StructTypes.Struct()
-							StructTypes.StructType(::Type{ResponseMetaData}) = StructTypes.Struct()
-							StructTypes.StructType(::Type{Case}) = StructTypes.Struct()
-
-							function fetch_data(url::String, params::Dict) 
-								res = HTTP.get(
-									url,
-									["Content-Type" => "application/json"],
-									query=params,
-									require_ssl_verification=false
-								)
-								return JSON3.read(String(res.body), Response)
-							end
-
-							res = fetch_data(url, params)
-
-							df = DataFrame(res.data)
-						</code></pre>
-					</section>
-					<section data-auto-animate>
-						<h3>Improving Our Code</h3>
-						<pre><code data-trim class="language-julia" data-line-numbers="5-24">
-							using DataFrames
-							using JSON3
-							using StructTypes
-
-							struct ResponseMetaData
-								total_records::Int64
-								next_url::String
-							end
-
-							struct Case
-								case_id::Int64
-								ee_atp_cnt::Int64
-								flsa_violtn_cnt::Int64
-								naic_cd::Union{String, Nothing}
-							end
-
-							struct Response
-								response_metadata::ResponseMetaData
-								data::Vector{Case}
-							end
-
-							StructTypes.StructType(::Type{Response}) = StructTypes.Struct()
-							StructTypes.StructType(::Type{ResponseMetaData}) = StructTypes.Struct()
-							StructTypes.StructType(::Type{Case}) = StructTypes.Struct()
-
-							function fetch_data(url::String, params::Dict) 
-								res = HTTP.get(
-									url,
-									["Content-Type" => "application/json"],
-									query=params,
-									require_ssl_verification=false
-								)
-								return JSON3.read(String(res.body), Response)
-							end
-
-							res = fetch_data(url, params)
-
-							df = DataFrame(res.data)
-						</code></pre>
-					</section>
-					<section data-auto-animate>
-						<h3>Improving Our Code</h3>
-						<pre><code data-trim class="language-julia" data-line-numbers="26-34">
-							using DataFrames
-							using JSON3
-							using StructTypes
-
-							struct ResponseMetaData
-								total_records::Int64
-								next_url::String
-							end
-
-							struct Case
-								case_id::Int64
-								ee_atp_cnt::Int64
-								flsa_violtn_cnt::Int64
-								naic_cd::Union{String, Nothing}
-							end
-
-							struct Response
-								response_metadata::ResponseMetaData
-								data::Vector{Case}
-							end
-
-							StructTypes.StructType(::Type{Response}) = StructTypes.Struct()
-							StructTypes.StructType(::Type{ResponseMetaData}) = StructTypes.Struct()
-							StructTypes.StructType(::Type{Case}) = StructTypes.Struct()
-
-							function fetch_data(url::String, params::Dict) 
-								res = HTTP.get(
-									url,
-									["Content-Type" => "application/json"],
-									query=params,
-									require_ssl_verification=false
-								)
-								return JSON3.read(String(res.body), Response)
-							end
-
-							res = fetch_data(url, params)
-
-							df = DataFrame(res.data)
-						</code></pre>
-					</section>
-					<section data-auto-animate>
-						<h3>Improving Our Code</h3>
-						<pre><code data-trim class="language-julia" data-line-numbers="36-38">
-							using DataFrames
-							using JSON3
-							using StructTypes
-
-							struct ResponseMetaData
-								total_records::Int64
-								next_url::String
-							end
-
-							struct Case
-								case_id::Int64
-								ee_atp_cnt::Int64
-								flsa_violtn_cnt::Int64
-								naic_cd::Union{String, Nothing}
-							end
-
-							struct Response
-								response_metadata::ResponseMetaData
-								data::Vector{Case}
-							end
-
-							StructTypes.StructType(::Type{Response}) = StructTypes.Struct()
-							StructTypes.StructType(::Type{ResponseMetaData}) = StructTypes.Struct()
-							StructTypes.StructType(::Type{Case}) = StructTypes.Struct()
-
-							function fetch_data(url::String, params::Dict) 
-								res = HTTP.get(
-									url,
-									["Content-Type" => "application/json"],
-									query=params,
-									require_ssl_verification=false
-								)
-								return JSON3.read(String(res.body), Response)
-							end
-
-							res = fetch_data(url, params)
-
-							df = DataFrame(res.data)
-						</code></pre>
-					</section>
-					<section>
-						<h3>The Resulting DataFrame</h3>
-						<pre><code data-trim class="language-julia-repl">
-							julia> df 
-							18676×4 DataFrame
-								Row │ case_id  ee_atp_cnt  flsa_violtn_cnt  naic_cd 
-									  │ Int64    Int64       Int64            String  
-								────┼───────────────────────────────────────────────
-									1 │ 1908151        7576             7770  812111
-									2 │ 1924005        2749             2749  561730
-									3 │ 1907946        1915             2019  722211
-								⋮ 	    ⋮              ⋮                ⋮       ⋮
-							18674 │ 1939717           0                0  448140
-							18675 │ 1939724           0                1  424810
-							18676 │ 1939730           0                0  722211
-																								18670 rows omitted
-
-						</code></pre>
-					</section>
-				</section>
-				<section>
-					<h3>Putting It All Together</h3>
-					<pre><code data-trim class="language-julia" data-line-numbers>
-						using DataFrames
-						using HTTP
-						using JSON3
-						using StructTypes
-
-						params = Dict( 
-							"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
-							"fields" => "case_id,naic_cd,ee_atp_cnt,flsa_violtn_cnt",
-							"limit" => 10,
-							"offset" => 0,
-							"sort" => "DESC",
-							"sort_by" => "ee_atp_cnt",
-							"filter_object" => "{'field': 'findings_end_date','operator': 'gt','value': '2019-10-01 00:00:00'}"
-						)
-						
-						const base_url = "https://apiv3.dol.gov/v3/get/"
-						endpoint = "whd/wh_enforcement"
-						url = base_url * endpoint
-
-						struct ResponseMetaData
-							total_records::Int64
-							next_url::String
-						end
-
-						struct Case
-							case_id::Int64
-							ee_atp_cnt::Int64
-							flsa_violtn_cnt::Int64
-							naic_cd::Union{String, Nothing}
-						end
-
-						struct Response
-							response_metadata::ResponseMetaData
-							data::Vector{Case}
-						end
-
-						StructTypes.StructType(::Type{Response}) = StructTypes.Struct()
-						StructTypes.StructType(::Type{ResponseMetaData}) = StructTypes.Struct()
-						StructTypes.StructType(::Type{Case}) = StructTypes.Struct()
-
-						function fetch_data(url::String, params::Dict) 
-							res = HTTP.get(
-								url,
-								["Content-Type" => "application/json"],
-								query=params,
-								require_ssl_verification=false
-							)
-							return JSON3.read(String(res.body), Response)
-						end
-
-						res = fetch_data(url, params)
-
-						df = DataFrame(res.data)
-					</code></pre>
 				</section>
 				<section>
 					<h3>Ready To Get Started?</h3>
