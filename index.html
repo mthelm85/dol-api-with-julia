@@ -329,7 +329,7 @@
 				<section>
 					<section>
 						<h3>Visualizing</h3>
-						<pre data-id="code"><code data-trim class="language-julia">
+						<pre data-id="code"><code data-trim data-line-numbers class="language-julia">
 							using Plots
 
 							naic_cds = first.(df.naic_cd, 2)
@@ -351,6 +351,34 @@
 					<section>
 						<h3>Result</h3>
 						<iframe data-src="bar.html"></iframe>
+					</section>
+				</section>
+				<section>
+					<section data-auto-animate="">
+						<h3><code>LaborAPI.jl</code></h3>
+						<pre data-id="code"><code data-trim class="language-julia-repl">
+							(@v1.6) pkg> add https://github.com/mthelm85/LaborAPI
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<h3><code>LaborAPI.jl</code></h3>
+						<pre data-id="code"><code data-trim data-line-numbers class="language-julia">
+							using LaborAPI
+
+							params = Dict( 
+								"X-API-KEY" => "AqYU6YHCQipczBJT1xhVsp9XUemy3iM0tx42GNOHyjk",
+								"fields" => "case_id,naic_cd,ee_atp_cnt,flsa_violtn_cnt",
+								"limit" => 10,
+								"offset" => 0,
+								"sort" => "DESC",
+								"sort_by" => "ee_atp_cnt",
+								"filter_object" => "{'field': 'findings_end_date','operator': 'gt','value': '2019-10-01 00:00:00'}"
+							)
+
+							endpoint = "whd/wh_enforcement"
+
+							whd = LaborAPI.get(endpoint, params)
+						</code></pre>
 					</section>
 				</section>
 				<section>
